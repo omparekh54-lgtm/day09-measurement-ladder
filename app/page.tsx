@@ -1,8 +1,9 @@
 'use client';
 import {useMemo,useRef,useState} from 'react';
-import {parseCsv,readiness,evidenceLevel,summarizeCampaigns,reconcile,experimentStats,budgetPlan,decisionFor,type RevenueBasis} from '../lib/analytics.mjs';
+import {parseCsv,readiness,evidenceLevel,summarizeCampaigns,reconcile,experimentStats,budgetPlan,decisionFor} from '../lib/analytics.mjs';
 
 type Row=Record<string,string>;
+type RevenueBasis='auto'|'platform'|'internal';
 const money=(n:number)=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n||0);
 const pct=(n:number)=>`${(n*100).toFixed(1)}%`;
 const demo=`date,channel,campaign,spend,revenue,internal_revenue,conversions,impressions,clicks\n2026-07-01,Google,Brand Search,8500,36500,33200,142,118000,7200\n2026-07-08,Google,Brand Search,9100,38200,34600,147,121000,7400\n2026-07-15,Google,Generic Search,14200,31800,28900,119,235000,8100\n2026-07-22,Google,Generic Search,15100,30100,27100,111,249000,7900\n2026-07-01,Meta,Prospecting,18800,34700,29200,126,410000,6200\n2026-07-08,Meta,Prospecting,20100,35100,29100,124,445000,6100\n2026-07-15,Meta,Retargeting,7600,28900,26300,108,98000,5100\n2026-07-22,Meta,Retargeting,7900,30100,27200,112,101000,5200\n2026-07-01,Email,CRM Winback,1800,15400,14800,72,42000,6400\n2026-07-08,Email,CRM Winback,1900,16100,15200,76,43800,6600`;
